@@ -1,0 +1,11 @@
+Scope: Q1-Q2 only. Q3-Q10 deferred to Project 6.
+
+data\3_ldt_2026-11-04_21h45.27.117.csv
+Q1 PASS Participant 3: all 104 recorded trial records match trials_p03.csv across the ten input columns (numeric formatting normalized). Completeness/order checked in Q2.
+Q1 PILOT Filename ldt.psyexp, dialog entry format, and actual relative-path loading cannot be established from output alone; inspect Builder and pilot.
+Q2 PASS 104/104 trial records, each reference row once and in file order; 3 nontrial rows excluded. This verifies recorded rows, not independent screen observation.
+
+data\6_ldt_2026-11-04_21h49.55.148.csv
+Q1 PASS Participant 6: all 104 recorded trial records match trials_p06.csv across the ten input columns (numeric formatting normalized). Completeness/order checked in Q2.
+Q1 PILOT Filename ldt.psyexp, dialog entry format, and actual relative-path loading cannot be established from output alone; inspect Builder and pilot.
+Q2 PASS 104/104 trial records, each reference row once and in file order; 3 nontrial rows excluded. This verifies recorded rows, not independent screen observation.

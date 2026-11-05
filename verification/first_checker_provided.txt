@@ -1,0 +1,31 @@
+Scope: Q1-Q2 only. Q3-Q10 deferred to Project 6.
+
+provided/output_files\file_A.csv
+Q1 PASS Participant 3: all 104 recorded trial records match trials_p03.csv across the ten input columns (numeric formatting normalized). Completeness/order checked in Q2.
+Q1 PILOT Filename ldt.psyexp, dialog entry format, and actual relative-path loading cannot be established from output alone; inspect Builder and pilot.
+Q2 PASS 104/104 trial records, each reference row once and in file order; 3 nontrial rows excluded. This verifies recorded rows, not independent screen observation.
+
+provided/output_files\file_B.csv
+Q1 PASS Participant 4: all 104 recorded trial records match trials_p04.csv across the ten input columns (numeric formatting normalized). Completeness/order checked in Q2.
+Q1 PILOT Filename ldt.psyexp, dialog entry format, and actual relative-path loading cannot be established from output alone; inspect Builder and pilot.
+Q2 PASS 104/104 trial records, each reference row once and in file order; 3 nontrial rows excluded. This verifies recorded rows, not independent screen observation.
+
+provided/output_files\file_C.csv
+Q1 FAIL Participant 7: 104/104 trial records do not match trials_p07.csv; first at CSV line 3, phase='practice', index='1', item='PW4'.
+Q1 PILOT Filename ldt.psyexp, dialog entry format, and actual relative-path loading cannot be established from output alone; inspect Builder and pilot.
+Q2 FAIL 104/104 trial records; missing=104, extra/changed=104; first sequence mismatch at trial position 1.
+
+provided/output_files\file_D.csv
+Q1 PASS Participant 2: all 104 recorded trial records match trials_p02.csv across the ten input columns (numeric formatting normalized). Completeness/order checked in Q2.
+Q1 PILOT Filename ldt.psyexp, dialog entry format, and actual relative-path loading cannot be established from output alone; inspect Builder and pilot.
+Q2 PASS 104/104 trial records, each reference row once and in file order; 3 nontrial rows excluded. This verifies recorded rows, not independent screen observation.
+
+provided/output_files\file_E.csv
+Q1 PASS Participant 5: all 104 recorded trial records match trials_p05.csv across the ten input columns (numeric formatting normalized). Completeness/order checked in Q2.
+Q1 PILOT Filename ldt.psyexp, dialog entry format, and actual relative-path loading cannot be established from output alone; inspect Builder and pilot.
+Q2 FAIL 104/104 trial records; missing=0, extra/changed=0; first sequence mismatch at trial position 1.
+
+provided/output_files\file_F.csv
+Q1 PASS Participant 8: all 104 recorded trial records match trials_p08.csv across the ten input columns (numeric formatting normalized). Completeness/order checked in Q2.
+Q1 PILOT Filename ldt.psyexp, dialog entry format, and actual relative-path loading cannot be established from output alone; inspect Builder and pilot.
+Q2 PASS 104/104 trial records, each reference row once and in file order; 3 nontrial rows excluded. This verifies recorded rows, not independent screen observation.
