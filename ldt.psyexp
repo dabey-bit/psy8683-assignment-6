@@ -284,6 +284,23 @@
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="trial_record" valType="code" updates="None" name="name"/>
       </CodeComponent>
+      <CodeComponent name="a6_frame_recording" plugin="None">
+        <Param val="" valType="extendedCode" updates="constant" name="Before Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Before JS Experiment"/>
+        <Param val="# A6 I1/I2: setup has already stored the final measured refresh rate.&amp;#10;# Do not change Builder's frameDur or any Q1-Q10 timing settings.&amp;#10;a6FrameDuration = 1.0 / int(round(float(expInfo['frameRate'])))&amp;#10;win.refreshThreshold = 1.5 * a6FrameDuration&amp;#10;win.recordFrameIntervals = False&amp;#10;# Exclude any intervals collected during startup refresh-rate measurement.&amp;#10;win.frameIntervals = []&amp;#10;win.nDroppedFrames = 0&amp;#10;" valType="extendedCode" updates="constant" name="Begin Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
+        <Param val="# Shared by every practice and experimental trial.&amp;#10;# The first flip shows fixation; PsychoPy skips the preceding interval.&amp;#10;a6DroppedAtStart = win.nDroppedFrames&amp;#10;win.recordFrameIntervals = True&amp;#10;" valType="extendedCode" updates="constant" name="Begin Routine"/>
+        <Param val="Py" valType="str" updates="None" name="Code Type"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
+        <Param val="# Save once, in recording order, with one interval in seconds per line.&amp;#10;win.recordFrameIntervals = False&amp;#10;win.saveFrameIntervals(fileName=thisExp.dataFileName + '_frameIntervals.log')&amp;#10;" valType="extendedCode" updates="constant" name="End Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End JS Routine"/>
+        <Param val="# No more trial flips follow a response or timeout.&amp;#10;# Feedback and ITI are separate routines, so stop before their first flip.&amp;#10;win.recordFrameIntervals = False&amp;#10;thisExp.addData('dropped_frames', win.nDroppedFrames - a6DroppedAtStart)&amp;#10;" valType="extendedCode" updates="constant" name="End Routine"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="a6_frame_recording" valType="code" updates="None" name="name"/>
+      </CodeComponent>
     </Routine>
     <Routine name="feedback">
       <RoutineSettingsComponent name="feedback" plugin="None">

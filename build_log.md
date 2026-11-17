@@ -44,3 +44,17 @@ I opened, tested, and saved different versions during development, so the files'
 ## AI-use note (Part F)
 
 I used T3 Code, Claude, and Codex during the project. I initially watched AI work through an example of the task, then restarted so I could build and understand the experiment myself. After creating the basic version in Builder, I used AI to help with parts of the full experiment, including some code changes, timing fixes, and debugging. AI also generated an initial version of `check_output.py` and the tests, and helped draft parts of the verification report, reconciliation, and build log. I wrote the original predictions, ran the experiment myself, tested different versions, and reviewed the final files. I corrected an earlier explanation of file A and rewrote sections of the reports to reflect what I found. I did not use simulated responses as my participant data.
+
+## Assignment 6: Instrumentation
+
+The A5 baseline is `ef6c471` (`Start Assignment 6`), now marked by the `a5-baseline` tag. Before AI edited the experiment, I recorded the handoff in `7d2ed59` (`pre-handoff:`). That commit keeps the existing experiment and data unchanged.
+
+For I1 and I2, a new `a6_frame_recording` Code component records frame intervals in `ldt_trial`, which is used for both practice and experimental trials. Recording starts before the fixation flip and stops at End Routine, after the last target flip. Feedback and the ITI are separate routines, so their flips are excluded. PsychoPy skips the first interval after recording starts, leaving out the gap from the previous routine. Startup measurement intervals are cleared before trials begin.
+
+The dropped-frame threshold is 1.5 times one frame at the rounded final `frameRate`. This uses the rate measured by my existing setup code, without changing the experiment's timing settings. Each trial saves the change in `win.nDroppedFrames` as `dropped_frames`. At the end, `win.saveFrameIntervals()` saves the intervals beside the data file as `<data filename>_frameIntervals.log`, in seconds, one per line.
+
+The code has been reviewed, but no instrumented PsychoPy run has been collected yet. The dropped-frame totals, recording boundaries and total logged duration still need checking against actual output, including response and timeout trials. The original Q1–Q10 settings and code were left unchanged; this is not yet a runtime verification of their behavior. Participants 3 and 6 were not modified or rerun.
+
+### AI-use note for this step
+
+I asked Codex to add I1 and I2 without changing the existing task. It wrote the instrumentation component and this log entry. During review, it accounted for my setup's second refresh-rate measurement rather than assuming Builder's earlier frame duration matched the saved rate. It also checked that feedback and the ITI were separate routines. No simulated responses or timing results were used, and testing on my laptop is still pending.
