@@ -1,0 +1,226 @@
+Scope: software evidence for Q1-Q10 and I1-I2.
+
+data\3_ldt_2026-11-04_21h45.27.117.csv
+Q1 PASS Participant 3: all 104 recorded trial records match trials_p03.csv across the ten input columns (numeric formatting normalized). Completeness/order checked in Q2.
+Q1 UNDETERMINED Inspect the Builder file and test the dialog and relative-path loading to settle the remaining Q1 requirements.
+Q2 PASS 104/104 trial records, each reference row once and in file order; 3 nontrial rows excluded. This verifies recorded rows, not independent screen observation.
+Q3 PASS Phase sequence: 104 trials with 8 practice and 96 experimental. Expected 8 practice followed by 96 experimental.
+Q3 PASS instructions: instructions_text.started is recorded in the expected row (CSV line 2).
+Q3 PASS instructions: recorded ending key 'space'.
+Q3 PASS break: break_text.started is recorded in the expected row (CSV line 11).
+Q3 PASS break: recorded ending key 'space'.
+Q3 PASS end: end_text.started is recorded in the expected row (CSV line 108).
+Q3 PASS Feedback placement: all 104 rows matched.
+Q3 PASS Feedback: 8 durations agree with the rounded frame counts in the software evidence.
+Q3 PASS End screen: 1 durations agree with the rounded frame counts in the software evidence.
+Q3 UNDETERMINED Need the build or an observed run to establish the instruction and feedback wording and the actual screen transitions.
+Q4 PASS Fixation: 104 durations agree with the rounded frame counts in the software evidence.
+Q4 PASS Prime: 104 durations agree with the rounded frame counts in the software evidence.
+Q4 PASS SOA: 104 durations agree with the rounded frame counts in the software evidence.
+Q4 UNDETERMINED ITI: 102/104 matched, 0 lack timestamps, 2 have unexplained elapsed-time deviations. First at CSV line 31: 70 elapsed frame periods (586.750 ms), expected 60. Need the actual flip counts to distinguish delays from a frame setting error.
+Q4 PASS Presentation order: all 104 rows matched.
+Q4 PASS Target through response or timeout: all 104 rows matched.
+Q4 UNDETERMINED Inspect the build or watch a run to confirm the fixation cross, stimulus case, and blank SOA and ITI screens. Physical timing requires a photodiode.
+Q5 PASS Fixation: 104 durations agree with the rounded frame counts in the software evidence.
+Q5 PASS Prime: 104 durations agree with the rounded frame counts in the software evidence.
+Q5 PASS SOA: 104 durations agree with the rounded frame counts in the software evidence.
+Q5 UNDETERMINED ITI: 102/104 matched, 0 lack timestamps, 2 have unexplained elapsed-time deviations. First at CSV line 31: 70 elapsed frame periods (586.750 ms), expected 60. Need the actual flip counts to distinguish delays from a frame setting error.
+Q5 PASS Timeout target: 1 durations agree with the rounded frame counts in the software evidence.
+Q5 PASS Feedback: 8 durations agree with the rounded frame counts in the software evidence.
+Q5 PASS End screen: 1 durations agree with the rounded frame counts in the software evidence.
+Q5 UNDETERMINED One recorded refresh rate cannot establish the Builder conversion rule at other rates. Inspect the frame expressions and refresh-rate source.
+Q6 PASS Accepted response keys: all 103 rows matched.
+Q6 UNDETERMINED Need the instructions and keyboard configuration or a controlled run to confirm displayed mapping, ignored keys and Escape.
+Q7 PASS Keyboard synchronization: all 104 rows matched.
+Q7 PASS Recorded RT reference: all 103 rows matched.
+Q7 UNDETERMINED Need Builder or a controlled run to verify buffer clearing and first-key storage. Physical stimulus-to-key latency needs external measurement.
+Q8 PASS prime text: all 104 rows matched.
+Q8 PASS target text: all 104 rows matched.
+Q8 UNDETERMINED Need Builder code to confirm the saved strings came from the stimulus objects at trial end.
+Q9 PASS Custom onsets versus automatic flip stamps: all 104 rows matched.
+Q9 UNDETERMINED Need build code to establish how the timestamps were captured. Measuring physical light onset requires hardware.
+Q10 PASS Recorded response and timeout coding: all 104 rows matched.
+Q10 PASS All ten recorded trial-list values match a row in trials_p03.csv.
+Q10 UNDETERMINED Saved response codes cannot show unrecorded presses or establish the physical two-second deadline without reference timing evidence.
+I1 UNDETERMINED No instrumentation log or column. Run the instrumented build and retain its matching log.
+I2 UNDETERMINED No dropped_frames column or matching log. Run the instrumented build and retain both outputs.
+Q1 PILOT Source at ef6c471: ldt.psyexp setup validates a plain positive integer, formats trial_lists/trials_p%02d.csv, and both loops use trialListFile.
+Q3 PILOT Source at ef6c471: SPACE ends the instructions and break routines. Practice alone includes feedback, set to Correct, Incorrect or Too slow from the recorded outcome.
+Q4 PILOT Source at ef6c471: Builder defines +, the prime and uppercase target, leaves the long SOA gap undrawn, and uses a blank ITI after feedback in practice.
+Q5 PILOT Source at ef6c471: Setup measures the refresh rate and rounds it to whole Hz; msToFrames rounds to whole frames and targetStartFrame uses that conversion for SOA.
+Q6 PILOT Source at ef6c471: The displayed and scoring mappings both use wordKey/nonwordKey from participant parity. Trial keyboard accepts f/j and Enable Escape is on.
+Q7 PILOT Source at ef6c471: Target and keyboard share targetStartFrame. The keyboard is refresh-synchronized, discards previous events and stores the first key.
+Q8 PILOT Source at ef6c471: trial_record End Routine reads prime_text.text and target_text.text directly from the stimulus objects.
+Q9 PILOT Source at ef6c471: trial_record End Routine saves prime_text.tStartRefresh and target_text.tStartRefresh.
+Q10 PILOT Source at ef6c471: trial_record treats RT >= 2 s as late and computes accuracy against the expected key for the recorded category.
+Q3 NOTE The break text stops after 1 s while the routine continues waiting for SPACE.
+
+data\6_ldt_2026-11-04_21h49.55.148.csv
+Q1 PASS Participant 6: all 104 recorded trial records match trials_p06.csv across the ten input columns (numeric formatting normalized). Completeness/order checked in Q2.
+Q1 UNDETERMINED Inspect the Builder file and test the dialog and relative-path loading to settle the remaining Q1 requirements.
+Q2 PASS 104/104 trial records, each reference row once and in file order; 3 nontrial rows excluded. This verifies recorded rows, not independent screen observation.
+Q3 PASS Phase sequence: 104 trials with 8 practice and 96 experimental. Expected 8 practice followed by 96 experimental.
+Q3 PASS instructions: instructions_text.started is recorded in the expected row (CSV line 2).
+Q3 PASS instructions: recorded ending key 'space'.
+Q3 PASS break: break_text.started is recorded in the expected row (CSV line 11).
+Q3 PASS break: recorded ending key 'space'.
+Q3 PASS end: end_text.started is recorded in the expected row (CSV line 108).
+Q3 PASS Feedback placement: all 104 rows matched.
+Q3 PASS Feedback: 8 durations agree with the rounded frame counts in the software evidence.
+Q3 PASS End screen: 1 durations agree with the rounded frame counts in the software evidence.
+Q3 UNDETERMINED Need the build or an observed run to establish the instruction and feedback wording and the actual screen transitions.
+Q4 PASS Fixation: 104 durations agree with the rounded frame counts in the software evidence.
+Q4 PASS Prime: 104 durations agree with the rounded frame counts in the software evidence.
+Q4 PASS SOA: 104 durations agree with the rounded frame counts in the software evidence.
+Q4 UNDETERMINED ITI: 103/104 matched, 0 lack timestamps, 1 have unexplained elapsed-time deviations. First at CSV line 29: 70 elapsed frame periods (585.033 ms), expected 60. Need the actual flip counts to distinguish delays from a frame setting error.
+Q4 PASS Presentation order: all 104 rows matched.
+Q4 PASS Target through response or timeout: all 104 rows matched.
+Q4 UNDETERMINED Inspect the build or watch a run to confirm the fixation cross, stimulus case, and blank SOA and ITI screens. Physical timing requires a photodiode.
+Q5 PASS Fixation: 104 durations agree with the rounded frame counts in the software evidence.
+Q5 PASS Prime: 104 durations agree with the rounded frame counts in the software evidence.
+Q5 PASS SOA: 104 durations agree with the rounded frame counts in the software evidence.
+Q5 UNDETERMINED ITI: 103/104 matched, 0 lack timestamps, 1 have unexplained elapsed-time deviations. First at CSV line 29: 70 elapsed frame periods (585.033 ms), expected 60. Need the actual flip counts to distinguish delays from a frame setting error.
+Q5 UNDETERMINED Timeout target: no timeout trials; need a run that reaches the deadline.
+Q5 PASS Feedback: 8 durations agree with the rounded frame counts in the software evidence.
+Q5 PASS End screen: 1 durations agree with the rounded frame counts in the software evidence.
+Q5 UNDETERMINED One recorded refresh rate cannot establish the Builder conversion rule at other rates. Inspect the frame expressions and refresh-rate source.
+Q6 PASS Accepted response keys: all 104 rows matched.
+Q6 UNDETERMINED Need the instructions and keyboard configuration or a controlled run to confirm displayed mapping, ignored keys and Escape.
+Q7 PASS Keyboard synchronization: all 104 rows matched.
+Q7 PASS Recorded RT reference: all 104 rows matched.
+Q7 UNDETERMINED Need Builder or a controlled run to verify buffer clearing and first-key storage. Physical stimulus-to-key latency needs external measurement.
+Q8 PASS prime text: all 104 rows matched.
+Q8 PASS target text: all 104 rows matched.
+Q8 UNDETERMINED Need Builder code to confirm the saved strings came from the stimulus objects at trial end.
+Q9 PASS Custom onsets versus automatic flip stamps: all 104 rows matched.
+Q9 UNDETERMINED Need build code to establish how the timestamps were captured. Measuring physical light onset requires hardware.
+Q10 PASS Recorded response and timeout coding: all 104 rows matched.
+Q10 PASS All ten recorded trial-list values match a row in trials_p06.csv.
+Q10 UNDETERMINED Saved response codes cannot show unrecorded presses or establish the physical two-second deadline without reference timing evidence.
+I1 UNDETERMINED No instrumentation log or column. Run the instrumented build and retain its matching log.
+I2 UNDETERMINED No dropped_frames column or matching log. Run the instrumented build and retain both outputs.
+Q1 PILOT Source at ef6c471: ldt.psyexp setup validates a plain positive integer, formats trial_lists/trials_p%02d.csv, and both loops use trialListFile.
+Q3 PILOT Source at ef6c471: SPACE ends the instructions and break routines. Practice alone includes feedback, set to Correct, Incorrect or Too slow from the recorded outcome.
+Q4 PILOT Source at ef6c471: Builder defines +, the prime and uppercase target, leaves the long SOA gap undrawn, and uses a blank ITI after feedback in practice.
+Q5 PILOT Source at ef6c471: Setup measures the refresh rate and rounds it to whole Hz; msToFrames rounds to whole frames and targetStartFrame uses that conversion for SOA.
+Q6 PILOT Source at ef6c471: The displayed and scoring mappings both use wordKey/nonwordKey from participant parity. Trial keyboard accepts f/j and Enable Escape is on.
+Q7 PILOT Source at ef6c471: Target and keyboard share targetStartFrame. The keyboard is refresh-synchronized, discards previous events and stores the first key.
+Q8 PILOT Source at ef6c471: trial_record End Routine reads prime_text.text and target_text.text directly from the stimulus objects.
+Q9 PILOT Source at ef6c471: trial_record End Routine saves prime_text.tStartRefresh and target_text.tStartRefresh.
+Q10 PILOT Source at ef6c471: trial_record treats RT >= 2 s as late and computes accuracy against the expected key for the recorded category.
+Q3 NOTE The break text stops after 1 s while the routine continues waiting for SPACE.
+Scope: software evidence for Q1-Q10 and I1-I2.
+
+data/7_ldt_2026-11-18_14h42.14.252.csv
+Q1 PASS Participant 7: all 104 recorded trial records match trials_p07.csv across the ten input columns (numeric formatting normalized). Completeness/order checked in Q2.
+Q1 UNDETERMINED Inspect the Builder file and test the dialog and relative-path loading to settle the remaining Q1 requirements.
+Q2 PASS 104/104 trial records, each reference row once and in file order; 3 nontrial rows excluded. This verifies recorded rows, not independent screen observation.
+Q3 PASS Phase sequence: 104 trials with 8 practice and 96 experimental. Expected 8 practice followed by 96 experimental.
+Q3 PASS instructions: instructions_text.started is recorded in the expected row (CSV line 2).
+Q3 PASS instructions: recorded ending key 'space'.
+Q3 PASS break: break_text.started is recorded in the expected row (CSV line 11).
+Q3 PASS break: recorded ending key 'space'.
+Q3 PASS end: end_text.started is recorded in the expected row (CSV line 108).
+Q3 PASS Feedback placement: all 104 rows matched.
+Q3 PASS Feedback: 8 durations agree with the rounded frame counts in the software evidence.
+Q3 PASS End screen: 1 durations agree with the rounded frame counts in the software evidence.
+Q3 UNDETERMINED Need the build or an observed run to establish the instruction and feedback wording and the actual screen transitions.
+Q4 PASS Fixation: 104 durations agree with the rounded frame counts in the software evidence. 104 checked against logged flips; 3 had elapsed-time deviations despite the correct count.
+Q4 PASS Prime: 104 durations agree with the rounded frame counts in the software evidence. 104 checked against logged flips; 0 had elapsed-time deviations despite the correct count.
+Q4 PASS SOA: 104 durations agree with the rounded frame counts in the software evidence. 104 checked against logged flips; 0 had elapsed-time deviations despite the correct count.
+Q4 UNDETERMINED ITI: 103/104 matched, 0 lack timestamps, 1 have unexplained elapsed-time deviations. First at CSV line 32: 38 elapsed frame periods (633.934 ms), expected 30. Need the actual flip counts to distinguish delays from a frame setting error.
+Q4 PASS Presentation order: all 104 rows matched.
+Q4 PASS Target through response or timeout: all 104 rows matched.
+Q4 UNDETERMINED Inspect the build or watch a run to confirm the fixation cross, stimulus case, and blank SOA and ITI screens. Physical timing requires a photodiode.
+Q5 PASS Fixation: 104 durations agree with the rounded frame counts in the software evidence. 104 checked against logged flips; 3 had elapsed-time deviations despite the correct count.
+Q5 PASS Prime: 104 durations agree with the rounded frame counts in the software evidence. 104 checked against logged flips; 0 had elapsed-time deviations despite the correct count.
+Q5 PASS SOA: 104 durations agree with the rounded frame counts in the software evidence. 104 checked against logged flips; 0 had elapsed-time deviations despite the correct count.
+Q5 UNDETERMINED ITI: 103/104 matched, 0 lack timestamps, 1 have unexplained elapsed-time deviations. First at CSV line 32: 38 elapsed frame periods (633.934 ms), expected 30. Need the actual flip counts to distinguish delays from a frame setting error.
+Q5 UNDETERMINED Timeout target: no timeout trials; need a run that reaches the deadline.
+Q5 PASS Feedback: 8 durations agree with the rounded frame counts in the software evidence.
+Q5 PASS End screen: 1 durations agree with the rounded frame counts in the software evidence.
+Q5 UNDETERMINED One recorded refresh rate cannot establish the Builder conversion rule at other rates. Inspect the frame expressions and refresh-rate source.
+Q6 PASS Accepted response keys: all 104 rows matched.
+Q6 UNDETERMINED Need the instructions and keyboard configuration or a controlled run to confirm displayed mapping, ignored keys and Escape.
+Q7 PASS Keyboard synchronization: all 104 rows matched.
+Q7 PASS Recorded RT reference: all 104 rows matched.
+Q7 UNDETERMINED Need Builder or a controlled run to verify buffer clearing and first-key storage. Physical stimulus-to-key latency needs external measurement.
+Q8 PASS prime text: all 104 rows matched.
+Q8 PASS target text: all 104 rows matched.
+Q8 UNDETERMINED Need Builder code to confirm the saved strings came from the stimulus objects at trial end.
+Q9 PASS Custom onsets versus automatic flip stamps: all 104 rows matched.
+Q9 UNDETERMINED Need build code to establish how the timestamps were captured. Measuring physical light onset requires hardware.
+Q10 PASS Recorded response and timeout coding: all 104 rows matched.
+Q10 PASS All ten recorded trial-list values match a row in trials_p07.csv.
+Q10 UNDETERMINED Saved response codes cannot show unrecorded presses or establish the physical two-second deadline without reference timing evidence.
+I1 PASS 10169 positive, finite intervals, one per line in 7_ldt_2026-11-18_14h42.14.252_frameIntervals.log.
+I1 PASS All intervals align with the fixation, prime and target timestamps for 104 trials and end about one flip before feedback or ITI. No extra intervals outside those windows.
+I2 PASS 104 trial counts sum to 2; the log has 2 intervals strictly above 25 ms.
+I2 PASS Per-trial dropped_frames values agree with a timestamp-aligned partition of the log.
+Q1 PILOT Source at 9b1a2a0: ldt.psyexp setup validates a plain positive integer, formats trial_lists/trials_p%02d.csv, and both loops use trialListFile.
+Q3 PILOT Source at 9b1a2a0: SPACE ends the instructions and break routines. Practice alone includes feedback, set to Correct, Incorrect or Too slow from the recorded outcome.
+Q4 PILOT Source at 9b1a2a0: Builder defines +, the prime and uppercase target, leaves the long SOA gap undrawn, and uses a blank ITI after feedback in practice.
+Q5 PILOT Source at 9b1a2a0: Setup measures the refresh rate and rounds it to whole Hz; msToFrames rounds to whole frames and targetStartFrame uses that conversion for SOA.
+Q6 PILOT Source at 9b1a2a0: The displayed and scoring mappings both use wordKey/nonwordKey from participant parity. Trial keyboard accepts f/j and Enable Escape is on.
+Q7 PILOT Source at 9b1a2a0: Target and keyboard share targetStartFrame. The keyboard is refresh-synchronized, discards previous events and stores the first key.
+Q8 PILOT Source at 9b1a2a0: trial_record End Routine reads prime_text.text and target_text.text directly from the stimulus objects.
+Q9 PILOT Source at 9b1a2a0: trial_record End Routine saves prime_text.tStartRefresh and target_text.tStartRefresh.
+Q10 PILOT Source at 9b1a2a0: trial_record treats RT >= 2 s as late and computes accuracy against the expected key for the recorded category.
+Q3 NOTE The break text stops after 1 s while the routine continues waiting for SPACE.
+
+data/8_ldt_2026-11-18_14h53.25.766.csv
+Q1 PASS Participant 8: all 104 recorded trial records match trials_p08.csv across the ten input columns (numeric formatting normalized). Completeness/order checked in Q2.
+Q1 UNDETERMINED Inspect the Builder file and test the dialog and relative-path loading to settle the remaining Q1 requirements.
+Q2 PASS 104/104 trial records, each reference row once and in file order; 3 nontrial rows excluded. This verifies recorded rows, not independent screen observation.
+Q3 PASS Phase sequence: 104 trials with 8 practice and 96 experimental. Expected 8 practice followed by 96 experimental.
+Q3 PASS instructions: instructions_text.started is recorded in the expected row (CSV line 2).
+Q3 PASS instructions: recorded ending key 'space'.
+Q3 PASS break: break_text.started is recorded in the expected row (CSV line 11).
+Q3 PASS break: recorded ending key 'space'.
+Q3 PASS end: end_text.started is recorded in the expected row (CSV line 108).
+Q3 PASS Feedback placement: all 104 rows matched.
+Q3 PASS Feedback: 8 durations agree with the rounded frame counts in the software evidence.
+Q3 UNDETERMINED End screen: 0/1 matched, 0 lack timestamps, 1 have unexplained elapsed-time deviations. First at CSV line 108: 123 elapsed frame periods (2054.768 ms), expected 120. Need the actual flip counts to distinguish delays from a frame setting error.
+Q3 UNDETERMINED Need the build or an observed run to establish the instruction and feedback wording and the actual screen transitions.
+Q4 PASS Fixation: 104 durations agree with the rounded frame counts in the software evidence. 104 checked against logged flips; 5 had elapsed-time deviations despite the correct count.
+Q4 PASS Prime: 104 durations agree with the rounded frame counts in the software evidence. 104 checked against logged flips; 1 had elapsed-time deviations despite the correct count.
+Q4 PASS SOA: 104 durations agree with the rounded frame counts in the software evidence. 104 checked against logged flips; 1 had elapsed-time deviations despite the correct count.
+Q4 UNDETERMINED ITI: 101/104 matched, 0 lack timestamps, 3 have unexplained elapsed-time deviations. First at CSV line 31: 34 elapsed frame periods (574.838 ms), expected 30. Need the actual flip counts to distinguish delays from a frame setting error.
+Q4 PASS Presentation order: all 104 rows matched.
+Q4 UNDETERMINED Target through response or timeout: 103/104 assessable rows matched. Need the target offset, response time or event-level interval evidence.
+Q4 UNDETERMINED Inspect the build or watch a run to confirm the fixation cross, stimulus case, and blank SOA and ITI screens. Physical timing requires a photodiode.
+Q5 PASS Fixation: 104 durations agree with the rounded frame counts in the software evidence. 104 checked against logged flips; 5 had elapsed-time deviations despite the correct count.
+Q5 PASS Prime: 104 durations agree with the rounded frame counts in the software evidence. 104 checked against logged flips; 1 had elapsed-time deviations despite the correct count.
+Q5 PASS SOA: 104 durations agree with the rounded frame counts in the software evidence. 104 checked against logged flips; 1 had elapsed-time deviations despite the correct count.
+Q5 UNDETERMINED ITI: 101/104 matched, 0 lack timestamps, 3 have unexplained elapsed-time deviations. First at CSV line 31: 34 elapsed frame periods (574.838 ms), expected 30. Need the actual flip counts to distinguish delays from a frame setting error.
+Q5 UNDETERMINED Timeout target: no timeout trials; need a run that reaches the deadline.
+Q5 PASS Feedback: 8 durations agree with the rounded frame counts in the software evidence.
+Q5 UNDETERMINED End screen: 0/1 matched, 0 lack timestamps, 1 have unexplained elapsed-time deviations. First at CSV line 108: 123 elapsed frame periods (2054.768 ms), expected 120. Need the actual flip counts to distinguish delays from a frame setting error.
+Q5 UNDETERMINED One recorded refresh rate cannot establish the Builder conversion rule at other rates. Inspect the frame expressions and refresh-rate source.
+Q6 PASS Accepted response keys: all 104 rows matched.
+Q6 UNDETERMINED Need the instructions and keyboard configuration or a controlled run to confirm displayed mapping, ignored keys and Escape.
+Q7 PASS Keyboard synchronization: all 104 rows matched.
+Q7 PASS Recorded RT reference: all 104 rows matched.
+Q7 UNDETERMINED Need Builder or a controlled run to verify buffer clearing and first-key storage. Physical stimulus-to-key latency needs external measurement.
+Q8 PASS prime text: all 104 rows matched.
+Q8 PASS target text: all 104 rows matched.
+Q8 UNDETERMINED Need Builder code to confirm the saved strings came from the stimulus objects at trial end.
+Q9 PASS Custom onsets versus automatic flip stamps: all 104 rows matched.
+Q9 UNDETERMINED Need build code to establish how the timestamps were captured. Measuring physical light onset requires hardware.
+Q10 PASS Recorded response and timeout coding: all 104 rows matched.
+Q10 PASS All ten recorded trial-list values match a row in trials_p08.csv.
+Q10 UNDETERMINED Saved response codes cannot show unrecorded presses or establish the physical two-second deadline without reference timing evidence.
+I1 PASS 10568 positive, finite intervals, one per line in 8_ldt_2026-11-18_14h53.25.766_frameIntervals.log.
+I1 PASS All intervals align with the fixation, prime and target timestamps for 104 trials and end about one flip before feedback or ITI. No extra intervals outside those windows.
+I2 PASS 104 trial counts sum to 10; the log has 10 intervals strictly above 25 ms.
+I2 PASS Per-trial dropped_frames values agree with a timestamp-aligned partition of the log.
+Q1 PILOT Source at 9b1a2a0: ldt.psyexp setup validates a plain positive integer, formats trial_lists/trials_p%02d.csv, and both loops use trialListFile.
+Q3 PILOT Source at 9b1a2a0: SPACE ends the instructions and break routines. Practice alone includes feedback, set to Correct, Incorrect or Too slow from the recorded outcome.
+Q4 PILOT Source at 9b1a2a0: Builder defines +, the prime and uppercase target, leaves the long SOA gap undrawn, and uses a blank ITI after feedback in practice.
+Q5 PILOT Source at 9b1a2a0: Setup measures the refresh rate and rounds it to whole Hz; msToFrames rounds to whole frames and targetStartFrame uses that conversion for SOA.
+Q6 PILOT Source at 9b1a2a0: The displayed and scoring mappings both use wordKey/nonwordKey from participant parity. Trial keyboard accepts f/j and Enable Escape is on.
+Q7 PILOT Source at 9b1a2a0: Target and keyboard share targetStartFrame. The keyboard is refresh-synchronized, discards previous events and stores the first key.
+Q8 PILOT Source at 9b1a2a0: trial_record End Routine reads prime_text.text and target_text.text directly from the stimulus objects.
+Q9 PILOT Source at 9b1a2a0: trial_record End Routine saves prime_text.tStartRefresh and target_text.tStartRefresh.
+Q10 PILOT Source at 9b1a2a0: trial_record treats RT >= 2 s as late and computes accuracy against the expected key for the recorded category.
+Q3 NOTE The break text stops after 1 s while the routine continues waiting for SPACE.
