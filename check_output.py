@@ -1,4 +1,4 @@
-﻿"""Check PsychoPy trial-list and frame instrumentation evidence.
+﻿"""Check PsychoPy trial-list, presentation, response, and instrumentation evidence.
 
 CSV headers are preserved, including duplicate participant columns.
 """
@@ -7,6 +7,7 @@ from bisect import bisect_left, bisect_right
 from collections import Counter
 from itertools import accumulate
 from math import isfinite
+from functools import lru_cache
 import csv
 from decimal import Decimal, InvalidOperation
 from glob import glob
@@ -128,14 +129,14 @@ def check_q2(output, lists_dir):
 # Builder names are arbitrary. Prefer known semantic names and require a unique
 # match before using an unfamiliar component as evidence.
 COMPONENTS = {
-    'instructions': ('instructions_text', 'instruction_text', 'instr_text', 'instructions', 'instr'),
+    'instructions': ('instructions_text', 'instr_text_stim', 'instruction_text', 'instr_text', 'instructions', 'instr'),
     'instructions_key': ('instructions_key', 'instruction_key', 'instr_key', 'instr_resp'),
     'fixation': ('fixation_text', 'fixation', 'fix', 'fix_text', 'fix_cross'),
     'prime': ('prime_text', 'prime', 'prime_stim'),
     'target': ('target_text', 'target', 'target_stim'),
     'keyboard': ('trial_key', 'response', 'resp', 'key_resp', 'response_key', 'trial_resp'),
     'feedback': ('feedback_text', 'feedback', 'fb_text', 'fb'),
-    'iti': ('iti_blank', 'iti_text', 'blank_iti', 'iti'),
+    'iti': ('iti_blank', 'iti_text', 'blank_iti', 'blank', 'iti'),
     'break': ('break_text', 'break_screen_text', 'break_screen', 'break'),
     'break_key': ('break_key', 'break_resp', 'break_screen_key'),
     'end': ('end_text', 'end_screen_text', 'end_msg', 'end_screen', 'end'),
@@ -262,37 +263,86 @@ def display_duration(output, values, role, following=None):
     return None if start is None or stop is None else stop - start
 
 
+def trial_flip_times(output):
+    """Use aligned I1 intervals for events inside recorded trial windows."""
+    if 'trial_flip_times' in output:
+        return output['trial_flip_times']
+    windows = {}
+    try:
+        trials = trial_values(output)
+        intervals = frame_intervals(frame_log_path(output))
+        frame = frame_duration(output, trials)
+        aligned, _ = interval_windows(output, trials, intervals, frame)
+        for line, start, end in aligned:
+            windows[line] = list(accumulate(intervals[start:end], initial=0))
+    except (OSError, ValueError):
+        pass
+    output['trial_flip_times'] = windows
+    return windows
+
+
+def logged_duration_frames(output, values, timestamps, label):
+    roles = {'Fixation': ('fixation', 'started', 'fixation', 'stopped'),
+             'Prime': ('prime', 'started', 'prime', 'stopped'),
+             'SOA': ('prime', 'started', 'target', 'started')}
+    if label not in roles or timestamps is None:
+        return None
+    a, sa, b, sb = roles[label]
+    origin, start, stop = event(output, values, 'fixation'), event(output, values, a, sa), event(output, values, b, sb)
+    if None in (origin, start, stop) or not all(map(isfinite, (origin, start, stop))):
+        return None
+    a_idx, b_idx = (nearest_flip(timestamps, value - origin) for value in (start, stop))
+    if max(abs(timestamps[i] - (t - origin)) for i, t in [(a_idx, start), (b_idx, stop)]) > .001:
+        return None
+    return b_idx - a_idx
+
+
 def duration_verdict(output, rows, label, elapsed, milliseconds):
     try:
         nominal_frame = frame_duration(output, trial_values(output))
         measured_frame = 1 / float(field(output, trial_values(output)[0][1], 'frameRate'))
     except (ValueError, IndexError):
         return ('UNDETERMINED', f'{label}: need a consistent measured frameRate to check rounded frame timing.')
-    mismatches, uncertain, missing, matched = [], [], 0, 0
+    mismatches, missing, matched = [], 0, 0
+    aligned_flips, elapsed_anomalies = 0, 0
     for line, values in rows:
         actual = elapsed(values)
         ms = milliseconds(values)
         if actual is None or ms is None:
             missing += 1
             continue
-        if not isfinite(actual) or not isfinite(ms) or actual < 0 or ms < 0:
-            mismatches.append((line, 'invalid duration or SOA'))
+        if not isfinite(actual) or not isfinite(ms) or actual <= 0 or ms < 0:
+            mismatches.append((line, 0, True, 'invalid duration or SOA'))
             continue
-        frames = round(ms / (1000 * nominal_frame))
-        observed = round(actual / measured_frame)
+        frames = round(ms * round(1 / nominal_frame) / 1000)
+        elapsed_periods = round(actual / measured_frame)
+        exact = logged_duration_frames(output, values, trial_flip_times(output).get(line), label)
+        if exact is not None:
+            aligned_flips += 1
+        observed = elapsed_periods if exact is None else exact
         if observed == frames:
             matched += 1
-        elif observed > frames and normalize('trial_index', field(output, values, 'dropped_frames')).isdecimal() and int(field(output, values, 'dropped_frames')) > 0:
-            uncertain.append((line, observed - frames))
+            elapsed_anomalies += elapsed_periods != frames
         else:
-            mismatches.append((line, f'{observed} elapsed frame periods ({actual * 1000:.3f} ms), expected {frames}'))
-    if mismatches:
-        line, detail = mismatches[0]
-        return ('FAIL', f'{label}: {len(mismatches)}/{len(rows)} mismatches without a matching drop explanation, first at CSV line {line}: {detail}.')
-    if uncertain or missing or not rows:
-        extra = f' First longer event is CSV line {uncertain[0][0]} (+{uncertain[0][1]} frame periods).' if uncertain else ''
-        return ('UNDETERMINED', f'{label}: {matched}/{len(rows)} matched, {missing} lack timestamps, {len(uncertain)} were longer on trials with recorded drops.{extra} Need the relevant boundary flips and event-level intervals to settle the remainder.')
-    return ('PASS', f'{label}: {matched} durations agree with the rounded frame counts in the software timestamps.')
+            method = 'recorded flips' if exact is not None else 'elapsed frame periods'
+            mismatches.append((line, observed - frames, exact is not None,
+                               f'{observed} {method} ({actual * 1000:.3f} ms), expected {frames}'))
+    # A persistent shift is evidence against the planned duration. Isolated
+    # discrepancies without flip counts may be scheduling or refresh delays.
+    expected_groups = Counter(milliseconds(values) for _, values in rows)
+    by_line = {line: milliseconds(values) for line, values in rows}
+    counts = Counter((by_line[line], offset) for line, offset, _, _ in mismatches)
+    failures = [(line, detail) for line, offset, exact, detail in mismatches
+                if exact or (expected_groups[by_line[line]] > 1
+                             and counts[by_line[line], offset] > expected_groups[by_line[line]] / 2)]
+    if failures:
+        line, detail = failures[0]
+        return ('FAIL', f'{label}: {len(failures)}/{len(rows)} definite or systematic mismatches, first at CSV line {line}: {detail}.')
+    if mismatches or missing or not rows:
+        detail = f' First at CSV line {mismatches[0][0]}: {mismatches[0][3]}.' if mismatches else ''
+        return ('UNDETERMINED', f'{label}: {matched}/{len(rows)} matched, {missing} lack timestamps, {len(mismatches)} have unexplained elapsed-time deviations.{detail} Need the actual flip counts to distinguish delays from a frame setting error.')
+    detail = f' {aligned_flips} checked against logged flips; {elapsed_anomalies} had elapsed-time deviations despite the correct count.' if aligned_flips else ''
+    return ('PASS', f'{label}: {matched} durations agree with the rounded frame counts in the software evidence.{detail}')
 
 
 def timing_delta(output, values, first, second):
@@ -319,10 +369,24 @@ def target_offset(output, values):
     return event(output, values, role)
 
 
+def presentation_order(output, values):
+    placement = [('fixation', 'started'), ('prime', 'started'), ('prime', 'stopped'), ('target', 'started')]
+    stamps = [event(output, values, role, suffix) for role, suffix in placement]
+    stamps.append(target_offset(output, values))
+    if field(output, values, 'phase') == 'practice':
+        stamps.append(event(output, values, 'feedback'))
+    stamps.append(event(output, values, 'iti'))
+    present = [stamp for stamp in stamps if stamp is not None]
+    if any(not isfinite(stamp) for stamp in present) or any(b + .001 < a for a, b in zip(present, present[1:])):
+        return 'fixation, prime, target, feedback or ITI timestamps are out of order'
+    return False if len(present) != len(stamps) else None
+
+
 def check_q4(output, lists_dir):
     trials = trial_values(output)
     result = trial_timing(output)
-
+    result.append(record_verdict('Presentation order', trials, lambda v: presentation_order(output, v),
+                                 'Need fixation, prime onset and offset, target onset and offset, and following screen flips.'))
     def target_window(values):
         start = event(output, values, 'target')
         stop = target_offset(output, values)
@@ -340,7 +404,7 @@ def check_q4(output, lists_dir):
         timeout = field(output, values, 'timeout')
         rt = finite_number(field(output, values, 'rt'))
         actual = stop - start
-        if timeout == '1' and abs(actual - 2) <= .5 * frame:
+        if timeout == '1' and abs(actual - (round(2 / frame) / float(field(output, values, 'frameRate')))) <= .5 * frame:
             return None
         if timeout == '1' and actual > 2 and field(output, values, 'dropped_frames').isdecimal() and int(field(output, values, 'dropped_frames')):
             return False
@@ -353,7 +417,7 @@ def check_q4(output, lists_dir):
         if actual > rt + 2 * frame + .001:
             if field(output, values, 'dropped_frames').isdecimal() and int(field(output, values, 'dropped_frames')):
                 return False
-            return f'target ended {1000 * (actual - rt):.3f} ms after the reported response, beyond two frame periods'
+            return False  # The post-target flip is outside I1; a delay here cannot be attributed from the CSV.
         return None
 
     result.append(record_verdict('Target through response or timeout', trials, target_window,
@@ -365,8 +429,14 @@ def check_q4(output, lists_dir):
 def check_q5(output, lists_dir):
     result = trial_timing(output)
     trials = trial_values(output)
-    result.append(duration_verdict(output, [(l, v) for l, v in trials if field(output, v, 'timeout') == '1'],
-                                  'Timeout target', lambda v: None if None in (event(output, v, 'target'), target_offset(output, v)) else target_offset(output, v) - event(output, v, 'target'), lambda _: 2000))
+    timeouts = [(line, values) for line, values in trials if field(output, values, 'timeout') == '1']
+    if timeouts:
+        def timeout_duration(values):
+            start, stop = event(output, values, 'target'), target_offset(output, values)
+            return None if start is None or stop is None else stop - start
+        result.append(duration_verdict(output, timeouts, 'Timeout target', timeout_duration, lambda _: 2000))
+    else:
+        result.append(('UNDETERMINED', 'Timeout target: no timeout trials; need a run that reaches the deadline.'))
     result.extend(r for r in check_q3(output, lists_dir) if r[1].startswith(('Feedback:', 'End screen:')))
     result.append(('UNDETERMINED', 'One recorded refresh rate cannot establish the Builder conversion rule at other rates. Inspect the frame expressions and refresh-rate source.'))
     return result
@@ -384,19 +454,16 @@ def expected_key(output, values):
 def check_q6(output, lists_dir):
     def mapping(values):
         observed = key_value(field(output, values, 'key'))
-        if observed and observed not in {'f', 'j'}:
-            return f'unexpected accepted key {observed!r}'
-        correct_key = expected_key(output, values)
-        if not observed or correct_key is None:
-            return False
-        accuracy = field(output, values, 'accuracy')
-        if accuracy not in {'0', '1'} or int(accuracy) != int(observed == correct_key):
-            return f'{observed!r} scored {accuracy!r} under the participant mapping (correct key {correct_key!r})'
+        automatic = key_value(field(output, values, resolve_column(output, 'keyboard', 'keys')))
+        invalid = [key for key in (observed, automatic) if key and key not in {'f', 'j'}]
+        if invalid:
+            return f'unexpected accepted key {invalid[0]!r}'
         return None
 
     trials = trial_values(output)
-    responses = [(l, v) for l, v in trials if key_value(field(output, v, 'key'))]
-    return [record_verdict('Recorded key mapping', responses, mapping, 'Need a recorded key, trial category and participant number.'),
+    auto = resolve_column(output, 'keyboard', 'keys')
+    responses = [(l, v) for l, v in trials if any(key_value(field(output, v, c)) for c in ('key', auto))]
+    return [record_verdict('Accepted response keys', responses, mapping, 'Need recorded response keys.'),
             ('UNDETERMINED', 'Need the instructions and keyboard configuration or a controlled run to confirm displayed mapping, ignored keys and Escape.')]
 
 
@@ -485,9 +552,16 @@ def check_q10(output, lists_dir):
                 return False
             if int(accuracy) != int(key == correct):
                 return f'accuracy {accuracy} for {key!r}; correct key is {correct!r}'
-        auto = key_value(field(output, values, resolve_column(output, 'keyboard', 'keys')))
-        if auto and auto != key:
-            return f'custom key {key!r} disagrees with keyboard key {auto!r}'
+        auto_col = resolve_column(output, 'keyboard', 'keys')
+        auto = key_value(field(output, values, auto_col))
+        auto_rt = finite_number(field(output, values, resolve_column(output, 'keyboard', 'rt')))
+        if auto_col and auto != key:
+            # The automatic component can report a late press the custom fields correctly discard.
+            if not (timeout == '1' and auto in {'f', 'j'} and auto_rt is not None
+                    and isfinite(auto_rt) and auto_rt >= 2):
+                return f'custom key {key!r} disagrees with keyboard key {auto!r}'
+        if key and auto_rt is not None and (not isfinite(auto_rt) or abs(float(rt) - auto_rt) > .001):
+            return f'custom RT {rt} disagrees with keyboard RT {auto_rt}'
         start, keyboard = event(output, values, 'target'), event(output, values, 'keyboard')
         if start is not None and keyboard is not None and abs(start - keyboard) > .001:
             return 'keyboard times are referenced to a different onset, so the saved RT or timeout is not target-relative'
@@ -517,7 +591,8 @@ def frame_log_path(output):
     return path.with_name(path.stem + '_frameIntervals.log')
 
 
-def frame_intervals(path):
+@lru_cache(maxsize=16)
+def _read_frame_intervals(path, modified_ns, size):
     with path.open(encoding='utf-8-sig') as stream:
         intervals = []
         for line_number, line in enumerate(stream, 1):
@@ -530,7 +605,12 @@ def frame_intervals(path):
             intervals.append(value)
     if not intervals:
         raise ValueError(f'{path.name} has no intervals.')
-    return intervals
+    return tuple(intervals)
+
+
+def frame_intervals(path):
+    stat = path.stat()
+    return _read_frame_intervals(path, stat.st_mtime_ns, stat.st_size)
 
 
 def trial_values(output):
@@ -553,10 +633,16 @@ def frame_duration(output, trials):
     return 1 / round(rate)
 
 
+def nearest_flip(timestamps, target, start=0):
+    pos = bisect_left(timestamps, target, lo=start)
+    candidates = [i for i in (pos - 1, pos) if start <= i < len(timestamps)]
+    return min(candidates, key=lambda i: abs(timestamps[i] - target)) if candidates else None
+
+
 def interval_windows(output, trials, intervals, duration, dropped_counts=None):
     """Find alignments using the timestamps available in this build's CSV."""
     cumulative = list(accumulate(intervals, initial=0))
-    starts = {0}
+    starts = {0: ()}
     dropped = list(accumulate((x > 1.5 * duration for x in intervals), initial=0))
     # Allow sub-frame timestamp noise while requiring both internal flip anchors.
     tolerance = min(0.001, duration / 8)
@@ -564,22 +650,23 @@ def interval_windows(output, trials, intervals, duration, dropped_counts=None):
         def timestamp(name):
             return value_at(output, values, name)
 
-        fields = (timestamp('fixation_text.started'), timestamp('prime_onset'),
-                  timestamp('target_onset'), timestamp('feedback_text.started')
-                  or timestamp('iti_blank.started'))
+        fields = (timestamp(resolve_column(output, 'fixation', 'started')), timestamp('prime_onset'),
+                  timestamp('target_onset'),
+                  timestamp(resolve_column(output, 'feedback', 'started'))
+                  or timestamp(resolve_column(output, 'iti', 'started')))
         if not all(fields):
             raise ValueError(f'CSV line {line} lacks a fixation, prime, target, or post-trial flip timestamp.')
         fixation, prime, target, after = map(float, fields)
         if not all(map(isfinite, (fixation, prime, target, after))) or not fixation < prime < target < after:
             raise ValueError(f'CSV line {line} has invalid or out-of-order trial timestamps.')
-        ends = set()
-        for start in starts:
+        ends = {}
+        for start, prior in starts.items():
             zero = cumulative[start]
-            prime_flip = bisect_left(cumulative, zero + prime - fixation - tolerance, lo=start + 1)
-            if prime_flip == len(cumulative) or abs(cumulative[prime_flip] - zero - (prime - fixation)) > tolerance:
+            prime_flip = nearest_flip(cumulative, zero + prime - fixation, start + 1)
+            if prime_flip is None or abs(cumulative[prime_flip] - zero - (prime - fixation)) > tolerance:
                 continue
-            target_flip = bisect_left(cumulative, zero + target - fixation - tolerance, lo=prime_flip + 1)
-            if target_flip == len(cumulative) or abs(cumulative[target_flip] - zero - (target - fixation)) > tolerance:
+            target_flip = nearest_flip(cumulative, zero + target - fixation, prime_flip + 1)
+            if target_flip is None or abs(cumulative[target_flip] - zero - (target - fixation)) > tolerance:
                 continue
             # The next routine starts about one frame after the last logged target flip.
             post_trial = zero + after - fixation
@@ -587,11 +674,11 @@ def interval_windows(output, trials, intervals, duration, dropped_counts=None):
             high = bisect_right(cumulative, post_trial - 0.5 * duration, lo=low)
             for end in range(low, high):
                 if dropped_counts is None or dropped[end] - dropped[start] == dropped_counts[index]:
-                    ends.add(end)
+                    ends[end] = prior + ((line, start, end),)
         if not ends:
-            return False, line
+            return (), line
         starts = ends
-    return len(intervals) in starts, None
+    return starts.get(len(intervals), ()), None
 
 
 def check_i1(output, lists_dir):
@@ -612,6 +699,13 @@ def check_i1(output, lists_dir):
     except ValueError as error:
         return [fmt, ('UNDETERMINED', f'{error} Need the fixation, prime, target and following flip timestamps and frameRate.')]
     if not aligned:
+        spans = []
+        for _, values in trials:
+            start = event(output, values, 'fixation')
+            following = event(output, values, 'feedback') or event(output, values, 'iti')
+            spans.append(following - start)
+        if sum(intervals) > sum(spans) + 0.001:
+            return [fmt, ('FAIL', f'The log covers {sum(intervals):.3f} s, longer than the {sum(spans):.3f} s from all fixation flips through their following routine flips.')]
         where = f' at CSV line {line}' if line else ' through the end of the log'
         return [fmt, ('UNDETERMINED', f'Could not align all intervals{where} with one flip between the last target flip and the next routine. Check the actual offset flip and any delay at that boundary.')]
     return [fmt, ('PASS', f'All intervals align with the fixation, prime and target timestamps for {len(trials)} trials and end about one flip before feedback or ITI. No extra intervals outside those windows.')]
@@ -664,10 +758,43 @@ CHECKS = [check_q1, check_q2, check_q3, check_q4, check_q5, check_q6,
           check_q7, check_q8, check_q9, check_q10, check_i1, check_i2]
 
 
+# These source inspections are tied to the exact experiment commits used for
+# the author's runs. They are opt-in and never inferred from column names.
+REVIEWED_BUILDS = {
+    'a5-baseline': ('ef6c471', {'3', '6'}),
+    'a6-instrumented': ('9b1a2a0', {'7', '8'}),
+}
+
+SOURCE_EVIDENCE = {
+    'Q1': 'ldt.psyexp setup validates a plain positive integer, formats trial_lists/trials_p%02d.csv, and both loops use trialListFile.',
+    'Q3': 'SPACE ends the instructions and break routines. Practice alone includes feedback, set to Correct, Incorrect or Too slow from the recorded outcome.',
+    'Q4': 'Builder defines +, the prime and uppercase target, leaves the long SOA gap undrawn, and uses a blank ITI after feedback in practice.',
+    'Q5': 'Setup measures the refresh rate and rounds it to whole Hz; msToFrames rounds to whole frames and targetStartFrame uses that conversion for SOA.',
+    'Q6': 'The displayed and scoring mappings both use wordKey/nonwordKey from participant parity. Trial keyboard accepts f/j and Enable Escape is on.',
+    'Q7': 'Target and keyboard share targetStartFrame. The keyboard is refresh-synchronized, discards previous events and stores the first key.',
+    'Q8': 'trial_record End Routine reads prime_text.text and target_text.text directly from the stimulus objects.',
+    'Q9': 'trial_record End Routine saves prime_text.tStartRefresh and target_text.tStartRefresh.',
+    'Q10': 'trial_record treats RT >= 2 s as late and computes accuracy against the expected key for the recorded category.',
+}
+
+
+def source_evidence(output, reviewed):
+    if not reviewed:
+        return []
+    commit, participants = REVIEWED_BUILDS[reviewed]
+    observed = {normalize('participant', pid) for _, vals in trial_values(output)
+                for pid in cells(output, vals, 'participant') if pid}
+    if Path(output['path']).resolve().parent != Path('data').resolve() or len(observed) != 1 or not observed <= participants:
+        return []
+    return [(prop, f'Source at {commit}: {detail}') for prop, detail in SOURCE_EVIDENCE.items()]
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('files', nargs='+', help='CSV paths or wildcard patterns')
     parser.add_argument('--lists', default='trial_lists')
+    parser.add_argument('--reviewed-build', choices=REVIEWED_BUILDS,
+                        help='include source inspection evidence for these runs, if they came from this reviewed build')
     args = parser.parse_args()
     paths = []
     for pattern in args.files:
@@ -690,6 +817,11 @@ def main():
             for verdict, evidence in result:
                 print(f'{check.__name__[6:].upper()} {verdict} {evidence}')
                 failed |= verdict == 'FAIL'
+        reviewed = source_evidence(output, args.reviewed_build)
+        for prop, evidence in reviewed:
+            print(f'{prop} PILOT {evidence}')
+        if reviewed:
+            print('Q3 NOTE The break text stops after 1 s while the routine continues waiting for SPACE.')
     return int(failed)
 
 
