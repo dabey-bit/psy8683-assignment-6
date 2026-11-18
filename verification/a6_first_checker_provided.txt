@@ -1,0 +1,265 @@
+Scope: software evidence for Q1-Q10 and I1-I2.
+
+provided/output_files\file_A.csv
+Q1 PASS Participant 3: all 104 recorded trial records match trials_p03.csv across the ten input columns (numeric formatting normalized). Completeness/order checked in Q2.
+Q1 UNDETERMINED Inspect the Builder file and test the dialog and relative-path loading to settle the remaining Q1 requirements.
+Q2 PASS 104/104 trial records, each reference row once and in file order; 3 nontrial rows excluded. This verifies recorded rows, not independent screen observation.
+Q3 PASS Phase sequence: 104 trials with 8 practice and 96 experimental. Expected 8 practice followed by 96 experimental.
+Q3 PASS instructions: instructions.started is recorded in the expected row (CSV line 2).
+Q3 PASS instructions: recorded ending key 'space'.
+Q3 PASS break: break_text.started is recorded in the expected row (CSV line 11).
+Q3 PASS break: recorded ending key 'space'.
+Q3 PASS end: end_text.started is recorded in the expected row (CSV line 108).
+Q3 PASS Feedback placement: all 104 rows matched.
+Q3 PASS Feedback: 8 durations agree with the rounded frame counts in the software timestamps.
+Q3 PASS End screen: 1 durations agree with the rounded frame counts in the software timestamps.
+Q3 UNDETERMINED Need the build or an observed run to establish the instruction and feedback wording and the actual screen transitions.
+Q4 PASS Fixation: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS Prime: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS SOA: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS ITI: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS Target through response or timeout: all 104 rows matched.
+Q4 UNDETERMINED Inspect the build or watch a run to confirm the fixation cross, stimulus case, and blank SOA and ITI screens. Physical timing requires a photodiode.
+Q5 PASS Fixation: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS Prime: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS SOA: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS ITI: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS Timeout target: 1 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS Feedback: 8 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS End screen: 1 durations agree with the rounded frame counts in the software timestamps.
+Q5 UNDETERMINED One recorded refresh rate cannot establish the Builder conversion rule at other rates. Inspect the frame expressions and refresh-rate source.
+Q6 FAIL Recorded key mapping: 97 inconsistent rows, first at CSV line 3: 'f' scored '0' under the participant mapping (correct key 'f')
+Q6 UNDETERMINED Need the instructions and keyboard configuration or a controlled run to confirm displayed mapping, ignored keys and Escape.
+Q7 PASS Keyboard synchronization: all 104 rows matched.
+Q7 PASS Recorded RT reference: all 103 rows matched.
+Q7 UNDETERMINED Need Builder or a controlled run to verify buffer clearing and first-key storage. Physical stimulus-to-key latency needs external measurement.
+Q8 PASS prime text: all 104 rows matched.
+Q8 PASS target text: all 104 rows matched.
+Q8 UNDETERMINED Need Builder code to confirm the saved strings came from the stimulus objects at trial end.
+Q9 PASS Custom onsets versus automatic flip stamps: all 104 rows matched.
+Q9 UNDETERMINED Need build code to establish how the timestamps were captured. Measuring physical light onset requires hardware.
+Q10 FAIL Recorded response and timeout coding: 97 inconsistent rows, first at CSV line 3: accuracy 0 for 'f'; correct key is 'f'
+Q10 PASS All ten recorded trial-list values match a row in trials_p03.csv.
+Q10 UNDETERMINED Saved response codes cannot show unrecorded presses or establish the physical two-second deadline without reference timing evidence.
+I1 UNDETERMINED No instrumentation log or column. Run the instrumented build and retain its matching log.
+I2 UNDETERMINED No dropped_frames column or matching log. Run the instrumented build and retain both outputs.
+
+provided/output_files\file_B.csv
+Q1 PASS Participant 4: all 104 recorded trial records match trials_p04.csv across the ten input columns (numeric formatting normalized). Completeness/order checked in Q2.
+Q1 UNDETERMINED Inspect the Builder file and test the dialog and relative-path loading to settle the remaining Q1 requirements.
+Q2 PASS 104/104 trial records, each reference row once and in file order; 3 nontrial rows excluded. This verifies recorded rows, not independent screen observation.
+Q3 PASS Phase sequence: 104 trials with 8 practice and 96 experimental. Expected 8 practice followed by 96 experimental.
+Q3 PASS instructions: instructions.started is recorded in the expected row (CSV line 2).
+Q3 PASS instructions: recorded ending key 'space'.
+Q3 PASS break: break_text.started is recorded in the expected row (CSV line 11).
+Q3 PASS break: recorded ending key 'space'.
+Q3 PASS end: end_text.started is recorded in the expected row (CSV line 108).
+Q3 PASS Feedback placement: all 104 rows matched.
+Q3 PASS Feedback: 8 durations agree with the rounded frame counts in the software timestamps.
+Q3 PASS End screen: 1 durations agree with the rounded frame counts in the software timestamps.
+Q3 UNDETERMINED Need the build or an observed run to establish the instruction and feedback wording and the actual screen transitions.
+Q4 PASS Fixation: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS Prime: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS SOA: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS ITI: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS Target through response or timeout: all 104 rows matched.
+Q4 UNDETERMINED Inspect the build or watch a run to confirm the fixation cross, stimulus case, and blank SOA and ITI screens. Physical timing requires a photodiode.
+Q5 PASS Fixation: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS Prime: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS SOA: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS ITI: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS Timeout target: 2 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS Feedback: 8 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS End screen: 1 durations agree with the rounded frame counts in the software timestamps.
+Q5 UNDETERMINED One recorded refresh rate cannot establish the Builder conversion rule at other rates. Inspect the frame expressions and refresh-rate source.
+Q6 PASS Recorded key mapping: all 102 rows matched.
+Q6 UNDETERMINED Need the instructions and keyboard configuration or a controlled run to confirm displayed mapping, ignored keys and Escape.
+Q7 PASS Keyboard synchronization: all 104 rows matched.
+Q7 PASS Recorded RT reference: all 102 rows matched.
+Q7 UNDETERMINED Need Builder or a controlled run to verify buffer clearing and first-key storage. Physical stimulus-to-key latency needs external measurement.
+Q8 PASS prime text: all 104 rows matched.
+Q8 PASS target text: all 104 rows matched.
+Q8 UNDETERMINED Need Builder code to confirm the saved strings came from the stimulus objects at trial end.
+Q9 PASS Custom onsets versus automatic flip stamps: all 104 rows matched.
+Q9 UNDETERMINED Need build code to establish how the timestamps were captured. Measuring physical light onset requires hardware.
+Q10 PASS Recorded response and timeout coding: all 104 rows matched.
+Q10 PASS All ten recorded trial-list values match a row in trials_p04.csv.
+Q10 UNDETERMINED Saved response codes cannot show unrecorded presses or establish the physical two-second deadline without reference timing evidence.
+I1 UNDETERMINED No instrumentation log or column. Run the instrumented build and retain its matching log.
+I2 UNDETERMINED No dropped_frames column or matching log. Run the instrumented build and retain both outputs.
+
+provided/output_files\file_C.csv
+Q1 FAIL Participant 7: 104/104 trial records do not match trials_p07.csv; first at CSV line 3, phase='practice', index='1', item='PW4'.
+Q1 UNDETERMINED Inspect the Builder file and test the dialog and relative-path loading to settle the remaining Q1 requirements.
+Q2 FAIL 104/104 trial records; missing=104, extra/changed=104; first sequence mismatch at trial position 1.
+Q3 PASS Phase sequence: 104 trials with 8 practice and 96 experimental. Expected 8 practice followed by 96 experimental.
+Q3 PASS instructions: instructions.started is recorded in the expected row (CSV line 2).
+Q3 PASS instructions: recorded ending key 'space'.
+Q3 PASS break: break_text.started is recorded in the expected row (CSV line 11).
+Q3 PASS break: recorded ending key 'space'.
+Q3 PASS end: end_text.started is recorded in the expected row (CSV line 108).
+Q3 PASS Feedback placement: all 104 rows matched.
+Q3 PASS Feedback: 8 durations agree with the rounded frame counts in the software timestamps.
+Q3 PASS End screen: 1 durations agree with the rounded frame counts in the software timestamps.
+Q3 UNDETERMINED Need the build or an observed run to establish the instruction and feedback wording and the actual screen transitions.
+Q4 PASS Fixation: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS Prime: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS SOA: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS ITI: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS Target through response or timeout: all 104 rows matched.
+Q4 UNDETERMINED Inspect the build or watch a run to confirm the fixation cross, stimulus case, and blank SOA and ITI screens. Physical timing requires a photodiode.
+Q5 PASS Fixation: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS Prime: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS SOA: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS ITI: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS Timeout target: 2 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS Feedback: 8 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS End screen: 1 durations agree with the rounded frame counts in the software timestamps.
+Q5 UNDETERMINED One recorded refresh rate cannot establish the Builder conversion rule at other rates. Inspect the frame expressions and refresh-rate source.
+Q6 PASS Recorded key mapping: all 102 rows matched.
+Q6 UNDETERMINED Need the instructions and keyboard configuration or a controlled run to confirm displayed mapping, ignored keys and Escape.
+Q7 PASS Keyboard synchronization: all 104 rows matched.
+Q7 PASS Recorded RT reference: all 102 rows matched.
+Q7 UNDETERMINED Need Builder or a controlled run to verify buffer clearing and first-key storage. Physical stimulus-to-key latency needs external measurement.
+Q8 PASS prime text: all 104 rows matched.
+Q8 PASS target text: all 104 rows matched.
+Q8 UNDETERMINED Need Builder code to confirm the saved strings came from the stimulus objects at trial end.
+Q9 PASS Custom onsets versus automatic flip stamps: all 104 rows matched.
+Q9 UNDETERMINED Need build code to establish how the timestamps were captured. Measuring physical light onset requires hardware.
+Q10 PASS Recorded response and timeout coding: all 104 rows matched.
+Q10 FAIL 104 trial rows differ from trials_p07.csv, first at CSV line 3.
+Q10 UNDETERMINED Saved response codes cannot show unrecorded presses or establish the physical two-second deadline without reference timing evidence.
+I1 UNDETERMINED No instrumentation log or column. Run the instrumented build and retain its matching log.
+I2 UNDETERMINED No dropped_frames column or matching log. Run the instrumented build and retain both outputs.
+
+provided/output_files\file_D.csv
+Q1 PASS Participant 2: all 104 recorded trial records match trials_p02.csv across the ten input columns (numeric formatting normalized). Completeness/order checked in Q2.
+Q1 UNDETERMINED Inspect the Builder file and test the dialog and relative-path loading to settle the remaining Q1 requirements.
+Q2 PASS 104/104 trial records, each reference row once and in file order; 3 nontrial rows excluded. This verifies recorded rows, not independent screen observation.
+Q3 PASS Phase sequence: 104 trials with 8 practice and 96 experimental. Expected 8 practice followed by 96 experimental.
+Q3 PASS instructions: instructions.started is recorded in the expected row (CSV line 2).
+Q3 PASS instructions: recorded ending key 'space'.
+Q3 PASS break: break_text.started is recorded in the expected row (CSV line 11).
+Q3 PASS break: recorded ending key 'space'.
+Q3 PASS end: end_text.started is recorded in the expected row (CSV line 108).
+Q3 PASS Feedback placement: all 104 rows matched.
+Q3 PASS Feedback: 8 durations agree with the rounded frame counts in the software timestamps.
+Q3 PASS End screen: 1 durations agree with the rounded frame counts in the software timestamps.
+Q3 UNDETERMINED Need the build or an observed run to establish the instruction and feedback wording and the actual screen transitions.
+Q4 PASS Fixation: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS Prime: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS SOA: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS ITI: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS Target through response or timeout: all 104 rows matched.
+Q4 UNDETERMINED Inspect the build or watch a run to confirm the fixation cross, stimulus case, and blank SOA and ITI screens. Physical timing requires a photodiode.
+Q5 PASS Fixation: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS Prime: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS SOA: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS ITI: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS Timeout target: 4 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS Feedback: 8 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS End screen: 1 durations agree with the rounded frame counts in the software timestamps.
+Q5 UNDETERMINED One recorded refresh rate cannot establish the Builder conversion rule at other rates. Inspect the frame expressions and refresh-rate source.
+Q6 PASS Recorded key mapping: all 100 rows matched.
+Q6 UNDETERMINED Need the instructions and keyboard configuration or a controlled run to confirm displayed mapping, ignored keys and Escape.
+Q7 PASS Keyboard synchronization: all 104 rows matched.
+Q7 PASS Recorded RT reference: all 100 rows matched.
+Q7 UNDETERMINED Need Builder or a controlled run to verify buffer clearing and first-key storage. Physical stimulus-to-key latency needs external measurement.
+Q8 FAIL prime text: 104 inconsistent rows, first at CSV line 3: saved 'prime', expected 'gravel'
+Q8 PASS target text: all 104 rows matched.
+Q8 UNDETERMINED Need Builder code to confirm the saved strings came from the stimulus objects at trial end.
+Q9 PASS Custom onsets versus automatic flip stamps: all 104 rows matched.
+Q9 UNDETERMINED Need build code to establish how the timestamps were captured. Measuring physical light onset requires hardware.
+Q10 PASS Recorded response and timeout coding: all 104 rows matched.
+Q10 PASS All ten recorded trial-list values match a row in trials_p02.csv.
+Q10 UNDETERMINED Saved response codes cannot show unrecorded presses or establish the physical two-second deadline without reference timing evidence.
+I1 UNDETERMINED No instrumentation log or column. Run the instrumented build and retain its matching log.
+I2 UNDETERMINED No dropped_frames column or matching log. Run the instrumented build and retain both outputs.
+
+provided/output_files\file_E.csv
+Q1 PASS Participant 5: all 104 recorded trial records match trials_p05.csv across the ten input columns (numeric formatting normalized). Completeness/order checked in Q2.
+Q1 UNDETERMINED Inspect the Builder file and test the dialog and relative-path loading to settle the remaining Q1 requirements.
+Q2 FAIL 104/104 trial records; missing=0, extra/changed=0; first sequence mismatch at trial position 1.
+Q3 PASS Phase sequence: 104 trials with 8 practice and 96 experimental. Expected 8 practice followed by 96 experimental.
+Q3 PASS instructions: instructions.started is recorded in the expected row (CSV line 2).
+Q3 PASS instructions: recorded ending key 'space'.
+Q3 PASS break: break_text.started is recorded in the expected row (CSV line 11).
+Q3 PASS break: recorded ending key 'space'.
+Q3 PASS end: end_text.started is recorded in the expected row (CSV line 108).
+Q3 PASS Feedback placement: all 104 rows matched.
+Q3 PASS Feedback: 8 durations agree with the rounded frame counts in the software timestamps.
+Q3 PASS End screen: 1 durations agree with the rounded frame counts in the software timestamps.
+Q3 UNDETERMINED Need the build or an observed run to establish the instruction and feedback wording and the actual screen transitions.
+Q4 PASS Fixation: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS Prime: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS SOA: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS ITI: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS Target through response or timeout: all 104 rows matched.
+Q4 UNDETERMINED Inspect the build or watch a run to confirm the fixation cross, stimulus case, and blank SOA and ITI screens. Physical timing requires a photodiode.
+Q5 PASS Fixation: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS Prime: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS SOA: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS ITI: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS Timeout target: 1 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS Feedback: 8 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS End screen: 1 durations agree with the rounded frame counts in the software timestamps.
+Q5 UNDETERMINED One recorded refresh rate cannot establish the Builder conversion rule at other rates. Inspect the frame expressions and refresh-rate source.
+Q6 PASS Recorded key mapping: all 103 rows matched.
+Q6 UNDETERMINED Need the instructions and keyboard configuration or a controlled run to confirm displayed mapping, ignored keys and Escape.
+Q7 PASS Keyboard synchronization: all 104 rows matched.
+Q7 PASS Recorded RT reference: all 103 rows matched.
+Q7 UNDETERMINED Need Builder or a controlled run to verify buffer clearing and first-key storage. Physical stimulus-to-key latency needs external measurement.
+Q8 PASS prime text: all 104 rows matched.
+Q8 PASS target text: all 104 rows matched.
+Q8 UNDETERMINED Need Builder code to confirm the saved strings came from the stimulus objects at trial end.
+Q9 PASS Custom onsets versus automatic flip stamps: all 104 rows matched.
+Q9 UNDETERMINED Need build code to establish how the timestamps were captured. Measuring physical light onset requires hardware.
+Q10 PASS Recorded response and timeout coding: all 104 rows matched.
+Q10 PASS All ten recorded trial-list values match a row in trials_p05.csv.
+Q10 UNDETERMINED Saved response codes cannot show unrecorded presses or establish the physical two-second deadline without reference timing evidence.
+I1 UNDETERMINED No instrumentation log or column. Run the instrumented build and retain its matching log.
+I2 UNDETERMINED No dropped_frames column or matching log. Run the instrumented build and retain both outputs.
+
+provided/output_files\file_F.csv
+Q1 PASS Participant 8: all 104 recorded trial records match trials_p08.csv across the ten input columns (numeric formatting normalized). Completeness/order checked in Q2.
+Q1 UNDETERMINED Inspect the Builder file and test the dialog and relative-path loading to settle the remaining Q1 requirements.
+Q2 PASS 104/104 trial records, each reference row once and in file order; 3 nontrial rows excluded. This verifies recorded rows, not independent screen observation.
+Q3 PASS Phase sequence: 104 trials with 8 practice and 96 experimental. Expected 8 practice followed by 96 experimental.
+Q3 PASS instructions: instructions.started is recorded in the expected row (CSV line 2).
+Q3 PASS instructions: recorded ending key 'space'.
+Q3 PASS break: break_text.started is recorded in the expected row (CSV line 11).
+Q3 PASS break: recorded ending key 'space'.
+Q3 PASS end: end_text.started is recorded in the expected row (CSV line 108).
+Q3 PASS Feedback placement: all 104 rows matched.
+Q3 PASS Feedback: 8 durations agree with the rounded frame counts in the software timestamps.
+Q3 PASS End screen: 1 durations agree with the rounded frame counts in the software timestamps.
+Q3 UNDETERMINED Need the build or an observed run to establish the instruction and feedback wording and the actual screen transitions.
+Q4 PASS Fixation: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS Prime: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS SOA: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 PASS ITI: 104 durations agree with the rounded frame counts in the software timestamps.
+Q4 FAIL Target through response or timeout: 104 inconsistent rows, first at CSV line 3: response window is not synchronized to target onset
+Q4 UNDETERMINED Inspect the build or watch a run to confirm the fixation cross, stimulus case, and blank SOA and ITI screens. Physical timing requires a photodiode.
+Q5 PASS Fixation: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS Prime: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS SOA: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS ITI: 104 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS Timeout target: 50 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS Feedback: 8 durations agree with the rounded frame counts in the software timestamps.
+Q5 PASS End screen: 1 durations agree with the rounded frame counts in the software timestamps.
+Q5 UNDETERMINED One recorded refresh rate cannot establish the Builder conversion rule at other rates. Inspect the frame expressions and refresh-rate source.
+Q6 PASS Recorded key mapping: all 54 rows matched.
+Q6 UNDETERMINED Need the instructions and keyboard configuration or a controlled run to confirm displayed mapping, ignored keys and Escape.
+Q7 FAIL Keyboard synchronization: 104 inconsistent rows, first at CSV line 3: keyboard minus target onset is -650.000 ms
+Q7 FAIL Recorded RT reference: 54 inconsistent rows, first at CSV line 3: keyboard minus target onset is -650.000 ms
+Q7 UNDETERMINED Need Builder or a controlled run to verify buffer clearing and first-key storage. Physical stimulus-to-key latency needs external measurement.
+Q8 PASS prime text: all 104 rows matched.
+Q8 PASS target text: all 104 rows matched.
+Q8 UNDETERMINED Need Builder code to confirm the saved strings came from the stimulus objects at trial end.
+Q9 PASS Custom onsets versus automatic flip stamps: all 104 rows matched.
+Q9 UNDETERMINED Need build code to establish how the timestamps were captured. Measuring physical light onset requires hardware.
+Q10 FAIL Recorded response and timeout coding: 104 inconsistent rows, first at CSV line 3: keyboard times are referenced to a different onset, so the saved RT or timeout is not target-relative
+Q10 PASS All ten recorded trial-list values match a row in trials_p08.csv.
+Q10 UNDETERMINED Saved response codes cannot show unrecorded presses or establish the physical two-second deadline without reference timing evidence.
+I1 UNDETERMINED No instrumentation log or column. Run the instrumented build and retain its matching log.
+I2 UNDETERMINED No dropped_frames column or matching log. Run the instrumented build and retain both outputs.
