@@ -294,7 +294,7 @@
         <Param val="Py" valType="str" updates="None" name="Code Type"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
-        <Param val="# Save once, in recording order, with one interval in seconds per line.&amp;#10;win.recordFrameIntervals = False&amp;#10;win.saveFrameIntervals(fileName=thisExp.dataFileName + '_frameIntervals.log')&amp;#10;" valType="extendedCode" updates="constant" name="End Experiment"/>
+        <Param val="# Save once, in recording order, with one interval in seconds per line.&amp;#10;win.recordFrameIntervals = False&amp;#10;if win.frameIntervals:&#10;    with open(thisExp.dataFileName + '_frameIntervals.log', 'w', encoding='utf-8') as intervalLog:&#10;        intervalLog.writelines(f'{interval}\n' for interval in win.frameIntervals)&#10;    win.frameIntervals.clear()&amp;#10;" valType="extendedCode" updates="constant" name="End Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="End JS Routine"/>
         <Param val="# No more trial flips follow a response or timeout.&amp;#10;# Feedback and ITI are separate routines, so stop before their first flip.&amp;#10;win.recordFrameIntervals = False&amp;#10;thisExp.addData('dropped_frames', win.nDroppedFrames - a6DroppedAtStart)&amp;#10;" valType="extendedCode" updates="constant" name="End Routine"/>
